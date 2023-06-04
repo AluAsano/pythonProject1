@@ -1,18 +1,30 @@
-total_tickets = int(input('Укажите какое кол-во билетов вы хотите зарезервировать : '))
-ticket = 1
-midl_ticket = 0
-elder_ticket = 0
-while ticket <= total_tickets:
-    ticket_x = int(input('Укажите возраст владельца билета : '))
-    if ticket_x > 0:
-        if 18 <= ticket_x < 25:
-            midl_ticket += 1
-        elif ticket_x >= +25:
-            elder_ticket += 1
-        ticket += 1
-    else:
-        print('Возраст указан неверно!')
-sum_ = midl_ticket * 990 + elder_ticket * 1390
-if total_tickets > 3:
-    sum_ = sum_ / 100 * 90
-print('Общая стоимость билетов : ', int(sum_))
+
+def binary_search(array, element, left, right):
+    if left > right:  # если левая граница превысила правую,
+        return False  # значит элемент отсутствует
+    middle = (left + right) // 2  # находим середину
+    if array[middle] == element:
+        array.remove(element)
+        return middle, middle + 1  # возвращаем этот индекс
+    elif element < array[middle]:  # если элемент меньше элемента в середине
+        # рекурсивно ищем в левой половине
+        return binary_search(array, element, left, middle - 1)
+    else:  # иначе в правой
+        return binary_search(array, element, middle + 1, right)
+
+
+numbers = [int(x) for x in input("Введите целые числа в любом порядке, через пробел: ").split()]
+number = int(input("Введите целое число: "))
+numbers.sort()
+print(numbers)
+while numbers[0] > number or number > numbers[-1]:
+    print("Условия не удовлетворяются")
+    number = int(input("Введите целое число: "))
+
+
+numbers.append(number)
+numbers.sort()
+print(numbers)
+
+print(binary_search(numbers, number, 0, len(numbers)))
+print(numbers)
