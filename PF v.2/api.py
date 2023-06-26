@@ -44,7 +44,7 @@ class PetFriends:
             }
         )
         headers = {'auth_key': auth_key['key'], 'Content-Type': data.content_type}
-        res = requests.post(self.base_url + 'api/pets', headers=headers, data=data)
+        res = requests.post(self.base_url + 'api/create_pet_simple', headers=headers, data=data)
         status = res.status_code
         result = ""
         try:
@@ -52,4 +52,31 @@ class PetFriends:
         except:
             result = res.text
         print(result)
+        return status, result
+
+    def update_pet_info(self, auth_key, pet_id: str, name: str, animal_type: str, age: int):
+        headers = {'auth_key': auth_key['key']}
+        data = {
+            'name': name,
+            'age': age,
+            'animal_type': animal_type
+        }
+        res = requests.put(self.base_url + 'api/pets/' + pet_id, headers=headers, data=data)
+        status = res.status_code
+        result = ""
+        try:
+            result = res.json()
+        except:
+            result = res.text
+        return status, result
+
+    def delete_pet(self, auth_key, pet_id: str):
+        headers = {'auth_key': auth_key['key']}
+        res = requests.delete(self.base_url + 'api/pets/' + pet_id, headers=headers)
+        status = res.status_code
+        result = ""
+        try:
+            result = res.json()
+        except:
+            result = res.text
         return status, result
